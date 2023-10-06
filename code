@@ -1,0 +1,10 @@
+import telebot
+
+bot = telebot.TeleBot('6467477848:AAGiUpgDQX1ePytwoqVzvQ11RUr0O4cMJpc')#это наш токен так скажем 
+
+
+@bot.message_handler(command=['start']) #чтобы отследить команду это декоратор для бота обрабатываем команду
+def start (message):
+    bot.send_message(message.chat.id, 'Аня мы лохушки!')
+
+bot.polling(none_stop = True)
