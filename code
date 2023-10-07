@@ -1,6 +1,9 @@
 import telebot
+import webbrowser
 
 bot = telebot.TeleBot('6467477848:AAGiUpgDQX1ePytwoqVzvQ11RUr0O4cMJpc')#это наш токен так скажем
+
+
 
 #если мы хотим обрабатывать текст который написал нам пользователь
 @bot.message_handler()
@@ -11,8 +14,13 @@ def info(message):
     elif message.text.lower()=='/start':
         bot.send_message(message.chat.id, 'Люблю Аню!')
 
-@bot.message_handler(command=['start']) #чтобы отследить команду это декоратор для бота обрабатываем команду
+@bot.message_handler(command=['/start']) #чтобы отследить команду это декоратор для бота обрабатываем команду
 def start (message):
     bot.send_message(message.chat.id, 'Люблю Аню!')
+
+
+@bot.message_handler(command=['/site','/website'])#должен открывть сайт распиасания при вызове но хз почему не открывает
+def site(message):
+    webbrowser.open('https://ruz.spbstu.ru')
 
 bot.polling(none_stop = True)
