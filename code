@@ -1,5 +1,6 @@
 import telebot
 import webbrowser
+from telebot import types
 
 bot = telebot.TeleBot('6467477848:AAGiUpgDQX1ePytwoqVzvQ11RUr0O4cMJpc')#это наш токен так скажем
 
@@ -22,5 +23,18 @@ def start (message):
 @bot.message_handler(command=['/site','/website'])#должен открывть сайт распиасания при вызове но хз почему не открывает
 def site(message):
     webbrowser.open('https://ruz.spbstu.ru')
+
+
+#работа с разными форматами текст фото и тд хз зачем нам но пусть будет
+@bot.message_handler(content_types=['photo'])
+def photo(message):
+    markup=types.InlineKeyboardMarkup()#делаем встроенные кнопки
+    markup.add(types.InlineKeyboardMarkup('Перейти на сайт', url='https://ruz.spbstu.ru'))#добавляем по одной кнопке и там же указываем что будет открываться перейдя на эту кнопку
+    markup.add(types.InlineKeyboardMarkup('Удалить фото', callback_data='delete'))
+    bot.reply_to(message, 'Вау! Восторг!', reply_markup=markup)# последнее типа даст кнопку как мы загрузим фото
+
+
+#создание кнопок
+
 
 bot.polling(none_stop = True)
