@@ -1,10 +1,18 @@
 import telebot
 
-bot = telebot.TeleBot('6467477848:AAGiUpgDQX1ePytwoqVzvQ11RUr0O4cMJpc')#это наш токен так скажем 
+bot = telebot.TeleBot('6467477848:AAGiUpgDQX1ePytwoqVzvQ11RUr0O4cMJpc')#это наш токен так скажем
 
+#если мы хотим обрабатывать текст который написал нам пользователь
+@bot.message_handler()
+def info(message):
+    if message.text.lower()=='привет':
+        bot.send_message(message.chat.id, 'Привет!')
+    #elif message.text.lower()=='привет':  это как шаблон я хз что сюда писать
+    elif message.text.lower()=='/start':
+        bot.send_message(message.chat.id, 'Люблю Аню!')
 
 @bot.message_handler(command=['start']) #чтобы отследить команду это декоратор для бота обрабатываем команду
 def start (message):
-    bot.send_message(message.chat.id, 'Аня мы лохушки!')
+    bot.send_message(message.chat.id, 'Люблю Аню!')
 
 bot.polling(none_stop = True)
