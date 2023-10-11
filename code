@@ -1,5 +1,6 @@
 import telebot
 import webbrowser
+import sqlite3
 from telebot import types
 
 bot = telebot.TeleBot('6467477848:AAGiUpgDQX1ePytwoqVzvQ11RUr0O4cMJpc') #это наш токен так скажем
@@ -7,6 +8,13 @@ bot = telebot.TeleBot('6467477848:AAGiUpgDQX1ePytwoqVzvQ11RUr0O4cMJpc') #это 
 #стартовое меню
 @bot.message_handler(commands=['start'])
 def start(message):
+    #создаем таблицу курсор чтобы по ней дввигаться
+    conn = sqlite3.connect('SessionTracker.sql')
+    cur = conn.cursor()
+    cur.execute('CREATE TABLE IF NOT EXISTS students(student_id int auto_increment primary key), name varchar(50),faculty varchar(50), group varchar(50)')
+    conn.commit()#синхронизация
+    cur.close()#закрыть соеденение думаю надо ниже кинуть
+    conn.close()
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     btn1 = types.KeyboardButton("👋 Анекдот для поднятия настроения")
     btn2 = types.KeyboardButton("❓ Рекомендации по запоминанию")
