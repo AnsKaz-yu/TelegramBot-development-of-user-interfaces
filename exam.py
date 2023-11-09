@@ -1,5 +1,6 @@
 import datetime
 
+
 class Exam:
     name = ""
     date = datetime.date(1990, 1, 1)
@@ -20,18 +21,10 @@ class Exam:
             return False
         return True
 
-    def add_exam_to_database(self):
-        # adding to database
-        self.clear()
-
     def clear(self):
         self.name = ""
         self.date = datetime.date(1990, 1, 1)
         self.questions_count = 0
 
-class ExamProgress:
-    name = ""
-    progress = 0
-    def clear(self):
-        name = ""
-        progress = 0
+
+
