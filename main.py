@@ -5,6 +5,8 @@ from exam_progress import ExamProgress
 from db import db
 from telebot import types
 from anecdote import joke
+from memory import memory
+from graphics import make_graph
 
 bot = telebot.TeleBot('6467477848:AAGiUpgDQX1ePytwoqVzvQ11RUr0O4cMJpc')  # это наш токен так скажем
 
@@ -42,6 +44,8 @@ def exams_markup(chat_id):
 def start(message):
     global Mydb
     try:
+        img = open('кот.jpg', 'rb')
+        bot.send_photo(message.chat.id, img)
         Mydb.add_user(message.chat.id)
         bot.send_message(message.chat.id,
                          text="Привет, {0.first_name}! Я помогу тебе не завалить сессию!".format(
@@ -61,7 +65,7 @@ def func(message):
         bot.send_message(message.chat.id, text=joke())
 
     elif message.text == "❓ Рекомендации по запоминанию":
-        bot.send_message(message.chat.id, text="У меня память как у золотой рыбки")
+        bot.send_message(message.chat.id, text=memory())
 
     elif message.text == "📌 Добавить экзамен":
         MyExam.clear()
@@ -119,7 +123,12 @@ def show_exam_progress(chat_id):
                          "У тебя еще нет добавленных экзаменов",
                          reply_markup=menu_markup())
     for i in progress_list:
-        bot.send_message(chat_id, text=f"{i[0]}: {'{:.2f}'.format(i[1])}%")
+        if i[1] == None:
+            bot.send_message(chat_id, text=f"{i[0]}: 0.0%")
+            make_graph(bot, chat_id, 0)
+        else:
+            bot.send_message(chat_id, text=f"{i[0]}: {'{:.2f}'.format(i[1])}%")
+            make_graph(bot, chat_id, i[1])
 
 
 def update_progress_exam_name(message):
